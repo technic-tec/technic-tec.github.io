@@ -21,6 +21,35 @@
   </head>
 
   <body>
+    <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+    <script type="text/javascript">
+      function onApiLoad() {
+        gapi.load('auth',  {'callback': onAuthApiLoad});
+        gapi.load('picker');
+      }
+      function onAuthApiLoad() {
+        window.gapi.auth.authorize({
+            'client_id': '113229170033-9viea4j8oeqstl11uq98r8ql5q4nbvl7.apps.googleusercontent.com', 
+            'scope': ['https://www.googleapis.com/auth/drive']
+            },  handleAuthResult);
+      }
+      var oauthToken;
+      function handleAuthResult(authResult) {
+        if (authResult && !authResult.error) {
+          oauthToken = authResult.access_token;
+          createPicker();
+        }
+      }
+      function createPicker() {
+        var picker = new google.picker.PickerBuilder()
+          .addView(new google.picker.DocsUploadView())
+          .addView(new google.picker.DocsView())
+          .setOAuthToken(oauthToken)
+          .setDeveloperKey('AIzaSyAalfOSKT_kS0YSWXJDPI2yvBQbaXv1NIw')
+          .build();
+        picker.setVisible(true);
+      }
+    </script>
     <a id="forkme_banner" href="https://github.com/technic-tec">View on GitHub</a>
     <div class="shell">
 
