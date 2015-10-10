@@ -44,10 +44,17 @@
         var picker = new google.picker.PickerBuilder()
           .addView(new google.picker.DocsUploadView())
           .addView(new google.picker.DocsView())
+          .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
           .setOAuthToken(oauthToken)
           .setDeveloperKey('AIzaSyAalfOSKT_kS0YSWXJDPI2yvBQbaXv1NIw')
+          .setCallback(pickerCallback)
           .build();
         picker.setVisible(true);
+      }
+      function pickerCallback(data) {
+        if (data.action == google.picker.Action.PICKED) {
+          alert('URL: ' + data.docs[0].url);
+        }
       }
     </script>
     <a id="forkme_banner" href="https://github.com/technic-tec">View on GitHub</a>
